@@ -27,7 +27,8 @@ public class Escaner {
 				numero = sc.nextInt();
 				
 			}catch(Exception e) {
-				System.out.println("Asegurate de que el número introducido no es negativo y \nde que solo contenga caracteres numéricos.\n");
+				System.out.println("Asegurate de que el número introducido solo contenga caracteres numéricos.\n");
+				sc.next();
 			}
 			
 			

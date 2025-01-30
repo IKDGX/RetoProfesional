@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.Statement;
 
 
 import menus.TextoForm;
@@ -26,9 +26,8 @@ public class AlquilerRepo {
 				return;
 			}
 		}
-		ArrayList<String> texto = new ArrayList<>();
 		for(String l: lista) {
-			texto.add(l);
+			TextoForm.tablas(l);
 		}
 		try(PreparedStatement prep = ConectorBD.conexion.prepareStatement(query)){
 			prep.setString(1, user.getDni());
@@ -36,9 +35,9 @@ public class AlquilerRepo {
 			ResultSet res = prep.executeQuery();
 			while(res.next()) {
 				for(int i=1;i<7;i++) {
-					texto.add(res.getString(i));
+					TextoForm.tablas(res.getString(i));
 				}
-				TextoForm.formateo(texto,6);
+				TextoForm.formateo(6);
 			}
 		}
 			
@@ -73,6 +72,23 @@ public class AlquilerRepo {
 			ResultSet res = check.executeQuery();
 			res.next();
 			return res.getDate(1);
+			
+		}
+	}
+	
+	public static void Alquileres()throws SQLException {
+		String query = "SELECT * FROM Alquiler";
+		
+		try(Statement st = ConectorBD.conexion.createStatement()){
+			
+			ResultSet res = st.executeQuery(query);
+			
+			while(res.next()) {
+				for(int i=1; i<7;i++) {
+					TextoForm.tablas(res.getString(i));
+				}
+			}
+			TextoForm.formateo(6);
 			
 		}
 	}

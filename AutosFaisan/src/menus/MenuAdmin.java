@@ -13,11 +13,43 @@ public class MenuAdmin {
 		do {
 			eleccion = Escaner.leerNumero("""
 					
-					+---------------Panel De Gestión---------------+
+					+------------Panel De Administrador------------+
 					|                                              |
-					| 1.Eliminar un usuario                        |
+					| 1.Alquileres                                 |
 					|                                              |
-					| 2.Listado de alquileres activos              |
+					| 2.Estadísticas                               |
+					|                                              |
+					| 0.Salir                                      |
+					|                                              |
+					+----------------------------------------------+
+					
+					""");
+			switch(eleccion) {
+			case 1:
+				AlquileresFiltrados();
+				break;
+			case 2:
+				Utiles.estadisticas();
+				break;
+			case 0:	
+				ConectorBD.desconectar();
+				System.exit(0);
+				break;
+			}
+		}while(eleccion!=0);
+	}
+	
+	public static void AlquileresFiltrados() throws SQLException {
+		do {
+			eleccion = Escaner.leerNumero("""
+					
+					+------------Panel De Administrador------------+
+					|                                              |
+					| 1.Filtrar por local                          |
+					|                                              |
+					| 2.Filtrar por vehículo                       |
+					|                                              |
+					| 3.Sin filtros                                |
 					|                                              |
 					| 0.Salir                                      |
 					|                                              |

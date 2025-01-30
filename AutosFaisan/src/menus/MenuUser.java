@@ -9,10 +9,14 @@ import bases_de_datos.ConectorBD;
 import bases_de_datos.Escaner;
 import bases_de_datos.LocalRepo;
 import bases_de_datos.MotoRepo;
+import bases_de_datos.VehiculoRepo;
+import model.Local;
 import model.Usuario;
 import model.Vehiculo;
 
 public class MenuUser {
+	
+	public static Usuario user;
 	
 	public static float precio;
 	
@@ -20,15 +24,16 @@ public class MenuUser {
 	
 	public static int eleccion;
 	
-	public static String local;
-	
 	public static Vehiculo vehiculo = new Vehiculo();
 	
 	public static int dias = 0;
 	
+	public static Local local = new Local();
+	
 	//Menús
 
-	public static void menuFunciones(Usuario user) throws SQLException {
+	public static void menuFunciones(Usuario usuario) throws SQLException {
+		user = usuario;
 		do {
 			eleccion = Escaner.leerNumero("""
 					
@@ -45,7 +50,7 @@ public class MenuUser {
 					""");
 			switch(eleccion) {
 			case 1:
-				Catalogo(user);
+				Catalogo();
 				break;
 			case 2:
 				AlquilerRepo.mostrarAlquileres(Utiles.titulo(new String[] {"Código","DNI","Matrícula","fecha","días","cargo"}), user);
@@ -59,15 +64,15 @@ public class MenuUser {
 		while(eleccion!=0);
 	}
 	
-	public static void Catalogo(Usuario user) throws SQLException {
+	public static void Catalogo() throws SQLException {
 		
 		LocalRepo.mostrarLocales(Utiles.titulo(new String[] {"Id","Nombre","Localidad"}));
-		
-		local = Escaner.leerTexto("""
+		local.setId(Escaner.leerTexto("""
 				
 				Introduce el id del local al que quieras acceder:
 
-				""");
+				"""));
+		LocalRepo.encontrarLocal(local);
 		do {
 			
 
@@ -86,12 +91,12 @@ public class MenuUser {
 					""");
 			switch(eleccion) {
 			case 1:
-				CocheRepo.mostrarCoches(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Disponibles","Tipo"}), local);
-				MenuAlquiler(user);
+				CocheRepo.mostrarCoches(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Disponibles","Tipo"}), local.getId());
+				MenuAlquiler();
 				break;
 			case 2:
-				MotoRepo.mostrarMotos(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Disponibles","Cilindrada"}) , local);
-				MenuAlquiler(user);
+				MotoRepo.mostrarMotos(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Disponibles","Cilindrada"}) , local.getId());
+				MenuAlquiler();
 				break;
 			case 0:
 				ConectorBD.desconectar();
@@ -102,7 +107,7 @@ public class MenuUser {
 		while(eleccion != 0);
 	}
 	
-	public static void MenuAlquiler(Usuario user) throws SQLException{
+	public static void MenuAlquiler() throws SQLException{
 		String input = "";
 		do {
 			input = Escaner.leerTexto("""
@@ -113,11 +118,12 @@ public class MenuUser {
 									
 					""");
 			if(input.equals("0")) {
-				Catalogo(user);
+				Catalogo();
 				
 			}
 			else {
 				vehiculo.setMatricula(input);
+				VehiculoRepo.encontrarVehiculo(vehiculo);
 				switch(eleccion) {
 				case 1:
 					CocheRepo.CocheElegido(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Disponibles","Tipo"}), vehiculo);
@@ -131,8 +137,9 @@ public class MenuUser {
 								
 								""");
 					}while(fecha1.after(fecha));
-					AlquilerRepo.realizarAlquiler(vehiculo, user, dias, fecha);
-					
+					if(Utiles.finalizar(input).equalsIgnoreCase("finalizar")) {
+						AlquilerRepo.realizarAlquiler(vehiculo, user, dias, fecha);
+					}
 					break;
 				case 2:
 					MotoRepo.MotoElegida(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Disponibles","Cilindrada"}) , vehiculo);
@@ -145,7 +152,9 @@ public class MenuUser {
 								
 								""");
 					}while(fecha2.after(fecha));
-					
+					if(Utiles.finalizar(input).equalsIgnoreCase("finalizar")) {
+						AlquilerRepo.realizarAlquiler(vehiculo, user, dias, fecha);
+					}
 					
 					break;
 				}
@@ -155,10 +164,5 @@ public class MenuUser {
 		while(input != "0");
 		
 	}
-	
-	
-	//Creación y verificación de los datos de un usuario
-	
-	
 	
 }

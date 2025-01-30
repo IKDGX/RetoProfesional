@@ -112,10 +112,28 @@ public class Utiles {
 	}
 	
 	public static int diasAlquiler(int dias) {
+		dias = -80;
 		do {
 			dias = Escaner.leerNumero("Introduzca la cantidad de dias del alquiler");
 		}
 		while(dias<=0);
 		return dias;
+	}
+	
+	public static String finalizar(String input) {
+		do {
+			input = Escaner.leerTexto("""
+					
+					Introduzca "finalizar" para realizar el alquiler:
+					
+					0.Volver atrás
+					
+					""");
+		}while(!(input.equalsIgnoreCase("finalizar")||input.equals("0")));
+		return input;
+	}
+	
+	public static void estadisticas() {
+		
 	}
 }

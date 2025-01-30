@@ -1,6 +1,7 @@
 package bases_de_datos;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -37,5 +38,21 @@ public class VehiculoRepo {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public static void encontrarVehiculo(Vehiculo vehiculo)throws SQLException {
+		String query = "SELECT COUNT(*) FROM Vehiculo WHERE Matricula = ?";
+		try(PreparedStatement check = ConectorBD.conexion.prepareStatement(query)){
+			
+			check.setString(1, vehiculo.getMatricula());
+			ResultSet res = check.executeQuery();
+			res.next();
+			if(res.getInt(1)!=1) {
+				MenuUser.MenuAlquiler();
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
