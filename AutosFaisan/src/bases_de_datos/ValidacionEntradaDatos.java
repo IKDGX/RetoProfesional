@@ -56,11 +56,18 @@ public class ValidacionEntradaDatos {
 	public static Date leerFecha(String mensaje) {
 		Date fecha = Date.valueOf("2000-12-12");
 		Boolean funciona = false;
+		String fechavar;
 		do {
 			System.out.println(mensaje);
 			try {
-				fecha = Date.valueOf(sc.next());
-				funciona = true;
+				fechavar = sc.next();
+				fecha = Date.valueOf(fechavar);
+				if(fecha.toString().equals(fechavar)) {
+					funciona = true;
+				}else {
+					funciona = false;
+				}
+				
 			}catch(Exception e) {
 				System.out.println("Asegurate de que el formato de la fecha introducida es correcto");
 				funciona = false;

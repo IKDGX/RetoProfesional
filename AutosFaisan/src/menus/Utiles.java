@@ -106,8 +106,8 @@ public class Utiles {
 	public static Date fechaDisponibilidad(Vehiculo vehiculo, Date fecha, int dias) throws SQLException {
 		fecha = new Date(System.currentTimeMillis());
 		if(!vehiculo.isDisponibilidad()) {
-			if(AlquilerRepo.fechaDispo(dias, vehiculo).after(fecha)) {
-				fecha = AlquilerRepo.fechaDispo(dias, vehiculo);
+			if(AlquilerRepo.fechaDispo(vehiculo).after(fecha)) {
+				fecha = AlquilerRepo.fechaDispo(vehiculo);
 			}
 		}
 		return fecha;

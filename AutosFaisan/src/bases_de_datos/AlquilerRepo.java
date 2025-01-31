@@ -15,33 +15,29 @@ public class AlquilerRepo {
 	
 	public static void mostrarAlquileres(String lista[], Usuario user)throws SQLException{
 		String query = "SELECT * FROM Alquiler WHERE DNI = ?";
-		String querycheck = "SELECT COUNT(*) FROM Alquiler WHERE DNI = ?";
-		
-		try(PreparedStatement check = ConectorBD.conexion.prepareStatement(querycheck)){
-			check.setString(1, user.getDni());
-			ResultSet result = check.executeQuery();
-			result.next();
-			if(result.getInt(1)==0) {
-				System.out.println("Registro vacío");
-				return;
-			}
-		}
-		for(String l: lista) {
-			FormateadorTexto.tablas(l);
-		}
 		try(PreparedStatement prep = ConectorBD.conexion.prepareStatement(query)){
 			prep.setString(1, user.getDni());
 			
 			ResultSet res = prep.executeQuery();
-			while(res.next()) {
+			if(!res.next()) {
+				System.out.println("Registro vacío");
+				return;
+			}
+			for(String l: lista) {
+				FormateadorTexto.tablas(l);
+			}
+			do {
 				for(int i=1;i<7;i++) {
 					FormateadorTexto.tablas(res.getString(i));
 				}
-				FormateadorTexto.formateo(6);
 			}
+			while(res.next());
+			FormateadorTexto.formateo(6);
+
 		}
 			
 	}
+	
 	
 	public static void realizarAlquiler(Vehiculo vehiculo, Usuario user, int dias,Date fecha)throws SQLException {
 		String query = "INSERT INTO Alquiler (DNI,Matricula,fecha,dias,cargo)VALUES(?,?,?,?,?)";
@@ -61,13 +57,12 @@ public class AlquilerRepo {
 
 	}
 	
-	public static Date fechaDispo(int dias, Vehiculo vehiculo)throws SQLException{
-		String query = "SELECT DATE_ADD(fecha, INTERVAL ? DAY) AS fecha FROM Alquiler A JOIN Vehiculo V ON A.Matricula = V.Matricula WHERE A.Matricula = ?";
+	public static Date fechaDispo(Vehiculo vehiculo)throws SQLException{
+		String query = "SELECT DATE_ADD(fecha, INTERVAL dias DAY) AS fecha FROM Alquiler A JOIN Vehiculo V ON A.Matricula = V.Matricula WHERE A.Matricula = ? ORDER BY fecha DESC";
 		
 		try(PreparedStatement check = ConectorBD.conexion.prepareStatement(query)){
 			
-			check.setInt(1, dias);
-			check.setString(2, vehiculo.getMatricula());
+			check.setString(1, vehiculo.getMatricula());
 			
 			ResultSet res = check.executeQuery();
 			res.next();
@@ -85,19 +80,23 @@ public class AlquilerRepo {
 		try(Statement st = ConectorBD.conexion.createStatement()){
 			
 			ResultSet res = st.executeQuery(query);
-			
-			while(res.next()) {
+			if(!res.next()) {
+				System.out.println("Registro vecío");
+				return;
+			}
+			do {
 				for(int i=1; i<7;i++) {
 					FormateadorTexto.tablas(res.getString(i));
 				}
 			}
+			while(res.next());
 			FormateadorTexto.formateo(6);
 			
 		}
 	}
 	
 	public static void DineroTotal()throws SQLException {
-		String query = "SELECT SUM(cargo)FROM Alquiler";
+		String query = "SELECT IFNULL(SUM(cargo),0)FROM Alquiler";
 		String query2 = "SELECT IFNULL(COUNT(*),0) FROM Alquiler A JOIN VCoche V ON A.Matricula = V.Matricula";
 		String query3 = "SELECT IFNULL(COUNT(*),0) FROM Alquiler A JOIN VMoto V ON A.Matricula = V.Matricula";
 		String queries[] = {query,query2,query3};

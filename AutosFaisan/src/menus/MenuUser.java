@@ -136,6 +136,7 @@ public class MenuUser {
 					break;
 				case 2:
 					MotoRepo.MotoElegida(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Disponibles","Cilindrada"}) , vehiculo);
+					dias = Utiles.diasAlquiler(dias);
 					Date fecha2 = Utiles.fechaDisponibilidad(vehiculo, fecha, dias);
 					System.out.println("Alquiler disponible desde: "+fecha2);
 					do {

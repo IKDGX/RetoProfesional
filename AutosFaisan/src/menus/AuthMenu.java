@@ -18,6 +18,9 @@ public class AuthMenu {
 			if(user.getTipo()==(TipoUsuario.Administrador)) {
 				MenuAdmin.PanelAdmin();
 			}
+			if(user.getTipo()==(TipoUsuario.Cliente)) {
+				MenuUser.menuFunciones(user);
+			}
 			eleccion = ValidacionEntradaDatos.leerNumero("""
 					
 					+---------------Menú De Inicio---------------+
