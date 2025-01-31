@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import bases_de_datos.AlquilerRepo;
 import bases_de_datos.CocheRepo;
 import bases_de_datos.ConectorBD;
-import bases_de_datos.Escaner;
+import bases_de_datos.ValidacionEntradaDatos;
 import bases_de_datos.MotoRepo;
 import bases_de_datos.VehiculoRepo;
 import model.Local;
@@ -34,7 +34,7 @@ public class MenuUser {
 	public static void menuFunciones(Usuario usuario) throws SQLException {
 		user = usuario;
 		do {
-			eleccion = Escaner.leerNumero("""
+			eleccion = ValidacionEntradaDatos.leerNumero("""
 					
 					+---------------Panel De Cliente---------------+
 					|                                              |
@@ -69,7 +69,7 @@ public class MenuUser {
 		do {
 			
 
-			eleccion = Escaner.leerNumero("""
+			eleccion = ValidacionEntradaDatos.leerNumero("""
 					
 					+------------------Vehículos-------------------+
 					|                                              |
@@ -103,7 +103,7 @@ public class MenuUser {
 	public static void MenuAlquiler() throws SQLException{
 		String input = "";
 		do {
-			input = Escaner.leerTexto("""
+			input = ValidacionEntradaDatos.leerTexto("""
 					
 					Introduzca la matrícula del vehículo elegido:
 					
@@ -124,7 +124,7 @@ public class MenuUser {
 					Date fecha1 = Utiles.fechaDisponibilidad(vehiculo, fecha, dias);
 					System.out.println("Alquiler disponible desde: "+fecha1);
 					do {
-						fecha = Escaner.leerFecha("""
+						fecha = ValidacionEntradaDatos.leerFecha("""
 								
 								Introduzca la fecha en la que desea realizar la reserva \"yyyy-mm-dd\":
 								
@@ -139,7 +139,7 @@ public class MenuUser {
 					Date fecha2 = Utiles.fechaDisponibilidad(vehiculo, fecha, dias);
 					System.out.println("Alquiler disponible desde: "+fecha2);
 					do {
-						fecha = Escaner.leerFecha("""
+						fecha = ValidacionEntradaDatos.leerFecha("""
 								
 								Introduzca la fecha en la que desea realizar la reserva \"yyyy-mm-dd\":
 								

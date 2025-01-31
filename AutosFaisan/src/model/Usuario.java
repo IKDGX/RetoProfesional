@@ -3,6 +3,7 @@ package model;
 
 
 import java.sql.Date;
+import java.util.Objects;
 
 import enums.TipoUsuario;
 
@@ -76,6 +77,24 @@ public class Usuario {
 	public String toString() {
 		return "Usuario [dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", fec_nac=" + fec_nac
 				+ ", tipo=" + tipo + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(apellido, dni, fec_nac, nombre, tipo);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Usuario other = (Usuario) obj;
+		return Objects.equals(apellido, other.apellido) && Objects.equals(dni, other.dni)
+				&& Objects.equals(fec_nac, other.fec_nac) && Objects.equals(nombre, other.nombre) && tipo == other.tipo;
 	}
 	
 	

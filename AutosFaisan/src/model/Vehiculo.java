@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Vehiculo {
 	
 	//ATRIBUTOS
@@ -86,6 +88,28 @@ public class Vehiculo {
 
 	public void setDisponibilidad(boolean disponibilidad) {
 		this.disponibilidad = disponibilidad;
+	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(color, disponibilidad, id_local, matricula, modelo, precio);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Vehiculo other = (Vehiculo) obj;
+		return Objects.equals(color, other.color) && disponibilidad == other.disponibilidad
+				&& Objects.equals(id_local, other.id_local) && Objects.equals(matricula, other.matricula)
+				&& Objects.equals(modelo, other.modelo)
+				&& Float.floatToIntBits(precio) == Float.floatToIntBits(other.precio);
 	}
 	
 	

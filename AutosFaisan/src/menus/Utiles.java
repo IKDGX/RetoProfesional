@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 
 import bases_de_datos.AlquilerRepo;
-import bases_de_datos.Escaner;
+import bases_de_datos.ValidacionEntradaDatos;
 import bases_de_datos.LocalRepo;
 import bases_de_datos.UsuarioRepo;
 import enums.TipoUsuario;
@@ -21,15 +21,15 @@ public class Utiles {
 		String dni;
 		String clave;
 		do {
-			dni = Escaner.leerTexto(mensaje[0]);
+			dni = ValidacionEntradaDatos.leerTexto(mensaje[0]);
 		}
 		while(!verificaDNI(dni));
 		user.setDni(dni.toUpperCase());
-		user.setNombre(Escaner.leerTexto(mensaje[1]));
-		user.setApellido(Escaner.leerTexto(mensaje[2]));
-		user.setFec_nac(Escaner.leerFecha(mensaje[3]));
+		user.setNombre(ValidacionEntradaDatos.leerTexto(mensaje[1]));
+		user.setApellido(ValidacionEntradaDatos.leerTexto(mensaje[2]));
+		user.setFec_nac(ValidacionEntradaDatos.leerFecha(mensaje[3]));
 		do {
-			clave = Escaner.leerTexto(mensaje[4]);
+			clave = ValidacionEntradaDatos.leerTexto(mensaje[4]);
 		}while(!reqClave(clave));
 		user.setTipo(TipoUsuario.Cliente);
 		UsuarioRepo.registrarUsuario(user, clave);
@@ -38,8 +38,8 @@ public class Utiles {
 	
 	public static void logUsuario(Usuario user) throws SQLException{
 		String mensaje[] = {"Introduce el DNI","Introduce la clave"};
-		String dni = Escaner.leerTexto(mensaje[0]);
-		String clave = Escaner.leerTexto(mensaje[1]);
+		String dni = ValidacionEntradaDatos.leerTexto(mensaje[0]);
+		String clave = ValidacionEntradaDatos.leerTexto(mensaje[1]);
 		UsuarioRepo.iniciarSesion(user, dni, clave);
 	}
 	
@@ -116,7 +116,7 @@ public class Utiles {
 	public static int diasAlquiler(int dias) {
 		dias = -80;
 		do {
-			dias = Escaner.leerNumero("Introduzca la cantidad de dias del alquiler");
+			dias = ValidacionEntradaDatos.leerNumero("Introduzca la cantidad de dias del alquiler");
 		}
 		while(dias<=0);
 		return dias;
@@ -124,7 +124,7 @@ public class Utiles {
 	
 	public static String finalizar(String input) {
 		do {
-			input = Escaner.leerTexto("""
+			input = ValidacionEntradaDatos.leerTexto("""
 					
 					Introduzca "finalizar" para realizar el alquiler:
 					
@@ -137,7 +137,7 @@ public class Utiles {
 	public static void accederLocal(Local local)throws SQLException {
 		do {
 			LocalRepo.mostrarLocales(Utiles.titulo(new String[] {"Id","Nombre","Localidad"}));
-			local.setId(Escaner.leerTexto("""
+			local.setId(ValidacionEntradaDatos.leerTexto("""
 					
 					Introduce el id del local al que quieras acceder:
 

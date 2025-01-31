@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Local {
 	
 	//ATRIBUTOS
@@ -43,6 +45,24 @@ public class Local {
 
 	public void setLocalidad(String localidad) {
 		this.localidad = localidad;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, localidad, nombre);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Local other = (Local) obj;
+		return Objects.equals(id, other.id) && Objects.equals(localidad, other.localidad)
+				&& Objects.equals(nombre, other.nombre);
 	}
 	
 	

@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 import bases_de_datos.AlquilerRepo;
 import bases_de_datos.ConectorBD;
-import bases_de_datos.Escaner;
+import bases_de_datos.ValidacionEntradaDatos;
 import model.Local;
 
 public class MenuAdmin {
@@ -15,7 +15,7 @@ public class MenuAdmin {
 	
 	public static void PanelAdmin() throws SQLException {
 		do {
-			eleccion = Escaner.leerNumero("""
+			eleccion = ValidacionEntradaDatos.leerNumero("""
 					
 					+------------Panel De Administrador------------+
 					|                                              |
@@ -45,7 +45,7 @@ public class MenuAdmin {
 	
 	public static void AlquileresFiltrados() throws SQLException {
 		do {
-			eleccion = Escaner.leerNumero("""
+			eleccion = ValidacionEntradaDatos.leerNumero("""
 					
 					+------------Panel De Administrador------------+
 					|                                              |

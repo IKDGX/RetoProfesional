@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Alquiler {
 	
 	//ATRIBUTOS
@@ -64,6 +66,24 @@ public class Alquiler {
 
 	public void setCargo(String cargo) {
 		Cargo = cargo;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(Cargo, Codigo, Dias, Fecha, Matricula);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Alquiler other = (Alquiler) obj;
+		return Objects.equals(Cargo, other.Cargo) && Codigo == other.Codigo && Dias == other.Dias
+				&& Fecha == other.Fecha && Objects.equals(Matricula, other.Matricula);
 	}
 	
 	

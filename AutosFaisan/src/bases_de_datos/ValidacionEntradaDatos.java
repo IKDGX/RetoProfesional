@@ -2,7 +2,7 @@ package bases_de_datos;
 
 import java.sql.Date;
 import java.util.Scanner;
-public class Escaner {
+public class ValidacionEntradaDatos {
 
 	private static Scanner sc = new Scanner(System.in);
 	
@@ -27,7 +27,7 @@ public class Escaner {
 				numero = sc.nextInt();
 				
 			}catch(Exception e) {
-				System.out.println("Asegurate de que el número introducido solo contenga caracteres numéricos.\n");
+				System.out.println("Asegurate de que el número introducido solo contenga caracteres numéricos.\nY no exceda el límite de dígitos.\n");
 				sc.next();
 			}
 			

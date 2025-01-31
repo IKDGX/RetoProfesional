@@ -3,7 +3,7 @@ package menus;
 import java.sql.SQLException;
 
 import bases_de_datos.ConectorBD;
-import bases_de_datos.Escaner;
+import bases_de_datos.ValidacionEntradaDatos;
 import enums.TipoUsuario;
 import model.Usuario;
 
@@ -18,7 +18,7 @@ public class AuthMenu {
 			if(user.getTipo()==(TipoUsuario.Administrador)) {
 				MenuAdmin.PanelAdmin();
 			}
-			eleccion = Escaner.leerNumero("""
+			eleccion = ValidacionEntradaDatos.leerNumero("""
 					
 					+---------------Menú De Inicio---------------+
 					|                                            |
