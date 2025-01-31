@@ -2,12 +2,16 @@ package menus;
 
 import java.sql.SQLException;
 
+import bases_de_datos.AlquilerRepo;
 import bases_de_datos.ConectorBD;
 import bases_de_datos.Escaner;
+import model.Local;
 
 public class MenuAdmin {
 	
 	public static int eleccion;
+	
+	public static Local local = new Local();
 	
 	public static void PanelAdmin() throws SQLException {
 		do {
@@ -29,7 +33,7 @@ public class MenuAdmin {
 				AlquileresFiltrados();
 				break;
 			case 2:
-				Utiles.estadisticas();
+				FormateadorTexto.Estadisticas();
 				break;
 			case 0:	
 				ConectorBD.desconectar();
@@ -47,9 +51,7 @@ public class MenuAdmin {
 					|                                              |
 					| 1.Filtrar por local                          |
 					|                                              |
-					| 2.Filtrar por vehículo                       |
-					|                                              |
-					| 3.Sin filtros                                |
+					| 2.Sin filtros                                |
 					|                                              |
 					| 0.Salir                                      |
 					|                                              |
@@ -58,10 +60,12 @@ public class MenuAdmin {
 					""");
 			switch(eleccion) {
 			case 1:
-				
+				Utiles.accederLocal(local);
+				AlquilerRepo.AlquilerLocal(Utiles.titulo(new String[] {"Código","DNI","Matrícula","fecha","días","cargo"}), local.getId());
 				break;
+
 			case 2:
-				
+				AlquilerRepo.Alquileres(Utiles.titulo(new String[] {"Código","DNI","Matrícula","fecha","días","cargo"}));
 				break;
 			case 0:	
 				ConectorBD.desconectar();

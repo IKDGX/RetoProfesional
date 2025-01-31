@@ -1,8 +1,12 @@
 package menus;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class TextoForm {
+import bases_de_datos.AlquilerRepo;
+import bases_de_datos.UsuarioRepo;
+
+public class FormateadorTexto {
 	
 	private static ArrayList<String> tabla = new ArrayList<>();
 
@@ -31,5 +35,16 @@ public class TextoForm {
 	public static ArrayList<String> tablas(String a) {
 		tabla.add(a);
 		return tabla;
+	}
+	
+	public static void Estadisticas() throws SQLException {
+		String titulo[] = {"Usuarios","Dinero generado","Alquileres de coches","Alquileres de motos"};
+		String titulo2[] = Utiles.titulo(titulo);
+		for(int i=0;i<titulo2.length;i++) {
+			tablas(titulo2[i]);
+		}
+		tablas(UsuarioRepo.cantidadUsuarios());
+		AlquilerRepo.DineroTotal();
+		formateo(4);
 	}
 }

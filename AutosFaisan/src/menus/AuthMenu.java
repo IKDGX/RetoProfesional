@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import bases_de_datos.ConectorBD;
 import bases_de_datos.Escaner;
+import enums.TipoUsuario;
 import model.Usuario;
 
 public class AuthMenu {
@@ -14,6 +15,9 @@ public class AuthMenu {
 
 	public static void menuPrincipal() throws SQLException {
 		do {
+			if(user.getTipo()==(TipoUsuario.Administrador)) {
+				MenuAdmin.PanelAdmin();
+			}
 			eleccion = Escaner.leerNumero("""
 					
 					+---------------Menú De Inicio---------------+
@@ -39,7 +43,7 @@ public class AuthMenu {
 				System.exit(0);
 				break;
 			}
-		}while(user.getDni()==null);
+		}while(eleccion != 0);
 		
 	}
 	

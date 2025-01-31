@@ -5,8 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import menus.MenuUser;
-import menus.TextoForm;
+import menus.FormateadorTexto;
 import model.Local;
 
 
@@ -15,20 +14,20 @@ public class LocalRepo {
 	public static void mostrarLocales(String lista[])throws SQLException{
 		String query = "SELECT * FROM CLocal";
 		for(String l: lista) {
-			TextoForm.tablas(l);
+			FormateadorTexto.tablas(l);
 		}
 		try (Statement statement = ConectorBD.conexion.createStatement()){
 			ResultSet resultado = statement.executeQuery(query);
 			while(resultado.next()) {
 				for(int i=1;i<4;i++) {
-					TextoForm.tablas(resultado.getString(i));
+					FormateadorTexto.tablas(resultado.getString(i));
 				}
 			}
-			TextoForm.formateo(3);
+			FormateadorTexto.formateo(3);
 		}
 	}
 	
-	public static void encontrarLocal(Local local)throws SQLException {
+	public static boolean encontrarLocal(Local local)throws SQLException {
 		String query = "SELECT COUNT(*) FROM CLocal WHERE ID = ?";
 		try(PreparedStatement check = ConectorBD.conexion.prepareStatement(query)){
 			
@@ -36,12 +35,13 @@ public class LocalRepo {
 			ResultSet res = check.executeQuery();
 			res.next();
 			if(res.getInt(1)!=1) {
-				MenuUser.Catalogo();
+				return false;
 			}
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
 		}
+		return true;
 	}
 	
 }

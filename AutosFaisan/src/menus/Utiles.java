@@ -6,8 +6,10 @@ import java.util.Arrays;
 
 import bases_de_datos.AlquilerRepo;
 import bases_de_datos.Escaner;
+import bases_de_datos.LocalRepo;
 import bases_de_datos.UsuarioRepo;
 import enums.TipoUsuario;
+import model.Local;
 import model.Usuario;
 import model.Vehiculo;
 
@@ -132,8 +134,14 @@ public class Utiles {
 		}while(!(input.equalsIgnoreCase("finalizar")||input.equals("0")));
 		return input;
 	}
-	
-	public static void estadisticas() {
-		
+	public static void accederLocal(Local local)throws SQLException {
+		do {
+			LocalRepo.mostrarLocales(Utiles.titulo(new String[] {"Id","Nombre","Localidad"}));
+			local.setId(Escaner.leerTexto("""
+					
+					Introduce el id del local al que quieras acceder:
+
+					"""));
+		}while(!LocalRepo.encontrarLocal(local));
 	}
 }

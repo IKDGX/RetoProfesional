@@ -7,7 +7,6 @@ import bases_de_datos.AlquilerRepo;
 import bases_de_datos.CocheRepo;
 import bases_de_datos.ConectorBD;
 import bases_de_datos.Escaner;
-import bases_de_datos.LocalRepo;
 import bases_de_datos.MotoRepo;
 import bases_de_datos.VehiculoRepo;
 import model.Local;
@@ -66,13 +65,7 @@ public class MenuUser {
 	
 	public static void Catalogo() throws SQLException {
 		
-		LocalRepo.mostrarLocales(Utiles.titulo(new String[] {"Id","Nombre","Localidad"}));
-		local.setId(Escaner.leerTexto("""
-				
-				Introduce el id del local al que quieras acceder:
-
-				"""));
-		LocalRepo.encontrarLocal(local);
+		Utiles.accederLocal(local);
 		do {
 			
 

@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 
-import menus.TextoForm;
+import menus.FormateadorTexto;
 import model.Usuario;
 import model.Vehiculo;
 
@@ -27,7 +27,7 @@ public class AlquilerRepo {
 			}
 		}
 		for(String l: lista) {
-			TextoForm.tablas(l);
+			FormateadorTexto.tablas(l);
 		}
 		try(PreparedStatement prep = ConectorBD.conexion.prepareStatement(query)){
 			prep.setString(1, user.getDni());
@@ -35,9 +35,9 @@ public class AlquilerRepo {
 			ResultSet res = prep.executeQuery();
 			while(res.next()) {
 				for(int i=1;i<7;i++) {
-					TextoForm.tablas(res.getString(i));
+					FormateadorTexto.tablas(res.getString(i));
 				}
-				TextoForm.formateo(6);
+				FormateadorTexto.formateo(6);
 			}
 		}
 			
@@ -76,8 +76,11 @@ public class AlquilerRepo {
 		}
 	}
 	
-	public static void Alquileres()throws SQLException {
+	public static void Alquileres(String[] titulo)throws SQLException {
 		String query = "SELECT * FROM Alquiler";
+		for(int i=0;i<titulo.length;i++) {
+			FormateadorTexto.tablas(titulo[i]);
+		}
 		
 		try(Statement st = ConectorBD.conexion.createStatement()){
 			
@@ -85,13 +88,66 @@ public class AlquilerRepo {
 			
 			while(res.next()) {
 				for(int i=1; i<7;i++) {
-					TextoForm.tablas(res.getString(i));
+					FormateadorTexto.tablas(res.getString(i));
 				}
 			}
-			TextoForm.formateo(6);
+			FormateadorTexto.formateo(6);
 			
 		}
 	}
 	
+	public static void DineroTotal()throws SQLException {
+		String query = "SELECT SUM(cargo)FROM Alquiler";
+		String query2 = "SELECT IFNULL(COUNT(*),0) FROM Alquiler A JOIN VCoche V ON A.Matricula = V.Matricula";
+		String query3 = "SELECT IFNULL(COUNT(*),0) FROM Alquiler A JOIN VMoto V ON A.Matricula = V.Matricula";
+		String queries[] = {query,query2,query3};
+		
+		try(Statement st = ConectorBD.conexion.createStatement()){
+			ResultSet res;
+			for(int i = 0;i<queries.length;i++) {
+				res = st.executeQuery(queries[i]);
+				res.next();
+				FormateadorTexto.tablas(res.getString(1));
+			}
+		
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void AlquilerLocal(String[] titulo, String local)throws SQLException {
+		String query = "SELECT Codigo, DNI, A.Matricula, fecha, dias, cargo FROM Alquiler A JOIN Vehiculo V ON A.Matricula = V.Matricula WHERE V.ID = ? ";
+		String querycheck = "SELECT COUNT(*) FROM Alquiler A JOIN Vehiculo V ON A.Matricula = V.Matricula WHERE V.ID = ?";
+		try(PreparedStatement prep = ConectorBD.conexion.prepareStatement(querycheck)){
+			
+			prep.setString(1, local);
+			
+			ResultSet res = prep.executeQuery();
+			res.next();
+			if(res.getInt(1)==0) {
+				System.out.println("El registro está vacío");
+				return;
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		for(int i = 0; i<titulo.length;i++) {
+			FormateadorTexto.tablas(titulo[i]);
+		}
+		try(PreparedStatement prep = ConectorBD.conexion.prepareStatement(query)){
+			prep.setString(1, local);
+			
+			ResultSet res = prep.executeQuery();
+			while(res.next()) {
+				for(int i = 1; i<7;i++) {
+					FormateadorTexto.tablas(res.getString(i));
+				}
+			}
+			FormateadorTexto.formateo(6);
+			
+		}
+	}
 	
 }

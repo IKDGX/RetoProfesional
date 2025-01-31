@@ -64,7 +64,6 @@ public class UsuarioRepo {
 			System.out.println("Las credenciales introducidas no coinciden");
 			return;
 		}
-		MenuUser.menuFunciones(user);
 
 	}
 	
@@ -87,8 +86,16 @@ public class UsuarioRepo {
 		}
 	
 	
-	public static void eliminarUsuario() throws SQLException {
+	public static String cantidadUsuarios() throws SQLException {
+		String query= "SELECT COUNT(*) FROM Usuario";
 		
+		try(Statement st = ConectorBD.conexion.createStatement()){
+			
+			ResultSet res = st.executeQuery(query);
+			res.next();
+			return res.getString(1);
+		}
+	
 	}
 }
 
