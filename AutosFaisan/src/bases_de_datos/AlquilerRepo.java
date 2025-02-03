@@ -73,9 +73,7 @@ public class AlquilerRepo {
 	
 	public static void Alquileres(String[] titulo)throws SQLException {
 		String query = "SELECT * FROM Alquiler";
-		for(int i=0;i<titulo.length;i++) {
-			FormateadorTexto.tablas(titulo[i]);
-		}
+
 		
 		try(Statement st = ConectorBD.conexion.createStatement()){
 			
@@ -83,6 +81,9 @@ public class AlquilerRepo {
 			if(!res.next()) {
 				System.out.println("Registro vecío");
 				return;
+			}
+			for(int i=0;i<titulo.length;i++) {
+				FormateadorTexto.tablas(titulo[i]);
 			}
 			do {
 				for(int i=1; i<7;i++) {

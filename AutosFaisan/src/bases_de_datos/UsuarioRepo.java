@@ -3,7 +3,6 @@ package bases_de_datos;
 import java.sql.*;
 
 import enums.TipoUsuario;
-import menus.MenuUser;
 import model.Usuario;
 
 public class UsuarioRepo {
@@ -20,14 +19,13 @@ public class UsuarioRepo {
 			prepSt.setString(5, clave);
 			prepSt.setString(6, user.getTipo().toString());
 			prepSt.executeUpdate();
-			System.out.println("Usuario registrado de forma exitosa");
-			
-			MenuUser.menuFunciones(user);
-
 		}
 		catch(SQLException e) {
 			System.out.println("Ese usuario ya está registrado en la base de datos, intenta iniciar sesión");
+			user.setTipo(null);
+			return;
 		}
+		System.out.println("Usuario registrado de forma exitosa");
 	}
 	
 	public static void iniciarSesion(Usuario user, String dni, String clave) throws SQLException {
