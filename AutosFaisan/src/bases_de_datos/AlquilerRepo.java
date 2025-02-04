@@ -118,33 +118,24 @@ public class AlquilerRepo {
 	
 	public static void AlquilerLocal(String[] titulo, String local)throws SQLException {
 		String query = "SELECT Codigo, DNI, A.Matricula, fecha, dias, cargo FROM Alquiler A JOIN Vehiculo V ON A.Matricula = V.Matricula WHERE V.ID = ? ";
-		String querycheck = "SELECT COUNT(*) FROM Alquiler A JOIN Vehiculo V ON A.Matricula = V.Matricula WHERE V.ID = ?";
-		try(PreparedStatement prep = ConectorBD.conexion.prepareStatement(querycheck)){
-			
+
+		try(PreparedStatement prep = ConectorBD.conexion.prepareStatement(query)){
 			prep.setString(1, local);
-			
 			ResultSet res = prep.executeQuery();
-			res.next();
-			if(res.getInt(1)==0) {
+			
+			if(!res.next()) {
 				System.out.println("El registro está vacío");
 				return;
 			}
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
-		for(int i = 0; i<titulo.length;i++) {
-			FormateadorTexto.tablas(titulo[i]);
-		}
-		try(PreparedStatement prep = ConectorBD.conexion.prepareStatement(query)){
-			prep.setString(1, local);
-			
-			ResultSet res = prep.executeQuery();
-			while(res.next()) {
+			for(int i = 0; i<titulo.length;i++) {
+				FormateadorTexto.tablas(titulo[i]);
+			}
+			do {
 				for(int i = 1; i<7;i++) {
 					FormateadorTexto.tablas(res.getString(i));
 				}
 			}
+			while(res.next());
 			FormateadorTexto.formateo(6);
 			
 		}

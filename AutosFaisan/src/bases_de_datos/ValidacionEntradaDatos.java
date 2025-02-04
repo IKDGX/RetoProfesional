@@ -31,7 +31,6 @@ public class ValidacionEntradaDatos {
 				sc.next();
 			}
 			
-			
 		}while(numero <0);
 
 		return numero;
@@ -46,6 +45,7 @@ public class ValidacionEntradaDatos {
 				
 			}catch(Exception e) {
 				System.out.println("Asegurate de que el número introducido no es negativo y \nde que solo contenga caracteres numéricos.\n");
+				sc.next();
 			}
 			
 			

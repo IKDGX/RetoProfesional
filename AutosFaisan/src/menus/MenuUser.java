@@ -21,7 +21,7 @@ public class MenuUser {
 	
 	public static Date fecha;
 	
-	public static int eleccion;
+	private static int eleccion;
 	
 	public static Vehiculo vehiculo = new Vehiculo();
 	

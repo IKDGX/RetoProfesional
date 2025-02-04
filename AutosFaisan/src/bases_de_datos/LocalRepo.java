@@ -38,9 +38,6 @@ public class LocalRepo {
 				return false;
 			}
 		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}
 		return true;
 	}
 	

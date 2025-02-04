@@ -9,6 +9,8 @@ import bases_de_datos.UsuarioRepo;
 public class FormateadorTexto {
 	
 	private static ArrayList<String> tabla = new ArrayList<>();
+	
+	//Le aplica un formato a los datos añadidos anteriormente
 
 	public static void formateo(int columnas) {
 		int tam = 0;
@@ -25,12 +27,13 @@ public class FormateadorTexto {
 			if(j ==columnas) {
 				System.out.println();
 				j=0;
-				
 			}
 		}
 		tabla.clear();
 
 	}
+	
+	//Recibe los datos que se mostrarán
 	
 	public static ArrayList<String> tablas(String a) {
 		tabla.add(a);

@@ -25,6 +25,9 @@ public class UsuarioRepo {
 			user.setTipo(null);
 			return;
 		}
+		
+		/*Preparo la consulta de isert con el usuario creado y en caso de que falle por la restricción de la Primary key (Mismo DNI) 
+		 hago un catch y le indico al usuario que ese DNI ya está registrado.*/
 		System.out.println("Usuario registrado de forma exitosa");
 	}
 	
