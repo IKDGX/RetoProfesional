@@ -6,6 +6,8 @@ public class ValidacionEntradaDatos {
 
 	private static Scanner sc = new Scanner(System.in);
 	
+	//Método de lectura de datos de tipo String.
+	
 	public static String leerTexto(String mensaje) {
 		String texto;
 		do {
@@ -18,6 +20,8 @@ public class ValidacionEntradaDatos {
 
 		return texto;
 	}
+	
+	//Método de lectura de datos de tipo int.
 	
 	public static int leerNumero(String mensaje) {
 		int numero = -1;
@@ -36,6 +40,8 @@ public class ValidacionEntradaDatos {
 		return numero;
 	}
 	
+	//Método de lectura de datos de tipo float.
+	
 	public static float leerDecimal(String mensaje) {
 		float decimal = -1;
 		do {
@@ -52,6 +58,8 @@ public class ValidacionEntradaDatos {
 		}while(decimal <0);
 		return decimal;
 	}
+	
+	//Método de lectura de datos de tipo Date.
 	
 	public static Date leerFecha(String mensaje) {
 		Date fecha = Date.valueOf("2000-12-12");

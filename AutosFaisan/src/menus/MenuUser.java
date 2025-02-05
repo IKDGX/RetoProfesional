@@ -17,19 +17,17 @@ public class MenuUser {
 	
 	public static Usuario user;
 	
-	public static float precio;
-	
 	public static Date fecha;
 	
 	private static int eleccion;
 	
 	public static Vehiculo vehiculo = new Vehiculo();
 	
-	public static int dias = 0;
+	public static int dias;
 	
 	public static Local local = new Local();
 	
-	//Menús
+	//Menú principal del cliente
 
 	public static void menuFunciones(Usuario usuario) throws SQLException {
 		user = usuario;
@@ -62,6 +60,9 @@ public class MenuUser {
 		}
 		while(eleccion!=0);
 	}
+	
+	
+	//Le muestra al cliente un listado de los locales a los que puede acceder y le pide que acceda a uno.
 	
 	public static void Catalogo() throws SQLException {
 		
@@ -100,6 +101,9 @@ public class MenuUser {
 		while(eleccion != 0);
 	}
 	
+	
+	//Le pide al usuario que elija un vehículo y verifica que existe para posteriormente mostrarle su elección.
+	
 	public static void MenuAlquiler() throws SQLException{
 		String input = "";
 		do {
@@ -111,7 +115,7 @@ public class MenuUser {
 									
 					""");
 			if(input.equals("0")) {
-				Catalogo();
+				menuFunciones(user);
 				
 			}
 			else {
@@ -120,36 +124,11 @@ public class MenuUser {
 				switch(eleccion) {
 				case 1:
 					CocheRepo.CocheElegido(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Disponibles","Tipo"}), vehiculo);
-					dias = Utiles.diasAlquiler(dias);
-					Date fecha1 = Utiles.fechaDisponibilidad(vehiculo, fecha, dias);
-					System.out.println("Alquiler disponible desde: "+fecha1);
-					do {
-						fecha = ValidacionEntradaDatos.leerFecha("""
-								
-								Introduzca la fecha en la que desea realizar la reserva \"yyyy-mm-dd\":
-								
-								""");
-					}while(fecha1.after(fecha));
-					if(Utiles.finalizar(input).equalsIgnoreCase("finalizar")) {
-						AlquilerRepo.realizarAlquiler(vehiculo, user, dias, fecha);
-					}
+					procesoAlquiler(input);
 					break;
 				case 2:
 					MotoRepo.MotoElegida(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Disponibles","Cilindrada"}) , vehiculo);
-					dias = Utiles.diasAlquiler(dias);
-					Date fecha2 = Utiles.fechaDisponibilidad(vehiculo, fecha, dias);
-					System.out.println("Alquiler disponible desde: "+fecha2);
-					do {
-						fecha = ValidacionEntradaDatos.leerFecha("""
-								
-								Introduzca la fecha en la que desea realizar la reserva \"yyyy-mm-dd\":
-								
-								""");
-					}while(fecha2.after(fecha));
-					if(Utiles.finalizar(input).equalsIgnoreCase("finalizar")) {
-						AlquilerRepo.realizarAlquiler(vehiculo, user, dias, fecha);
-					}
-					
+					procesoAlquiler(input);
 					break;
 				}
 			}
@@ -157,6 +136,28 @@ public class MenuUser {
 		}
 		while(input != "0");
 		
+	}
+	
+	//Recibe los datos necesarios para realizar el trámite y si se da el caso lo realiza
+	
+	public static void procesoAlquiler(String input) throws SQLException {
+		dias = Utiles.diasAlquiler(dias);
+		Date fecha1 = Utiles.fechaDisponibilidad(vehiculo, fecha, dias);
+		System.out.println("Alquiler disponible desde: "+fecha1);
+		do {
+			fecha = ValidacionEntradaDatos.leerFecha("""
+					
+					Introduzca la fecha en la que desea realizar la reserva \"yyyy-mm-dd\":
+					
+					""");
+		}while(fecha1.after(fecha));
+		input = Utiles.finalizar(input);
+		if(input.equalsIgnoreCase("finalizar")) {
+			AlquilerRepo.realizarAlquiler(vehiculo, user, dias, fecha);
+		}
+		else if(input.equalsIgnoreCase("0")) {
+			menuFunciones(user);
+		}
 	}
 	
 }

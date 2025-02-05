@@ -15,6 +15,7 @@ import model.Vehiculo;
 
 public class Utiles {
 
+	//Este método crea un objeto Usuario usado para registrarlo en la base de datos.
 
 	public static void crearUsuario(Usuario user) throws SQLException {
 		String mensaje[] = {"Introduce el DNI","Introduce el nombre","Introduce el apellido","Introduce la fecha de nacimiento en formato \"yyyy-mm-dd\"","Introduce una clave de acceso"};
@@ -36,12 +37,16 @@ public class Utiles {
 
 	}
 	
+	//Como su nombre lo indica, este método es para que el usuario inicie sesión.
+	
 	public static void logUsuario(Usuario user) throws SQLException{
 		String mensaje[] = {"Introduce el DNI","Introduce la clave"};
 		String dni = ValidacionEntradaDatos.leerTexto(mensaje[0]);
 		String clave = ValidacionEntradaDatos.leerTexto(mensaje[1]);
 		UsuarioRepo.iniciarSesion(user, dni, clave);
 	}
+	
+	//Este método calcula la letra que le corresponde al DNI introducido por el usuario en el proceso de registro.
 	
 	public static boolean verificaDNI(String dni) {
 		String lista[] = {"T","R","W","A","G","M","Y","F","P","D","X","B","N","J","Z","S","Q","V","H","L","C","K","E"};
@@ -64,6 +69,8 @@ public class Utiles {
 			
 		return resultado;
 	}
+	
+	//Este método se asegura de que la contraseña del usuario cumpla ciertos requisitos mínimos.
 	
 	public static boolean reqClave(String clave) {
 		boolean pasos[] = {false,false,false};
@@ -95,6 +102,8 @@ public class Utiles {
 		return resultado;
 	}
 	
+	//Este método añade una línea divisora para el encabezado de una lista que se vaya a mostrar.
+	
 	public static String[] titulo(String[] encabezado) {
 		String[] lista = Arrays.copyOf(encabezado, encabezado.length*2);
 		for (int i = 0; i<encabezado.length;i++) {
@@ -113,6 +122,8 @@ public class Utiles {
 		return fecha;
 	}
 	
+	//Este método se ocupa de pedirle al cliente la cantidad de días que quiere alquilar un vehículo.
+	
 	public static int diasAlquiler(int dias) {
 		dias = -80;
 		do {
@@ -121,6 +132,8 @@ public class Utiles {
 		while(dias<=0);
 		return dias;
 	}
+	
+	//Este método lee lo que el usuario desea hacer como último paso de un alquiler y lo devuelve.
 	
 	public static String finalizar(String input) {
 		do {
@@ -134,6 +147,9 @@ public class Utiles {
 		}while(!(input.equalsIgnoreCase("finalizar")||input.equals("0")));
 		return input;
 	}
+	
+	//Este método se encarga del acceso a un local.
+	
 	public static void accederLocal(Local local)throws SQLException {
 		do {
 			LocalRepo.mostrarLocales(Utiles.titulo(new String[] {"Id","Nombre","Localidad"}));

@@ -10,6 +10,8 @@ import model.Usuario;
 import model.Vehiculo;
 
 public class VehiculoRepo {
+	
+	//Cambio la disponibilidad de un vehículo tras realizar un alquiler.
 
 	public static void actuEstado(Vehiculo vehiculo, Usuario user)throws SQLException {
 		String query = "UPDATE Vehiculo SET Disponibilidad = false WHERE Matricula = ?";
@@ -27,6 +29,8 @@ public class VehiculoRepo {
 		MenuUser.menuFunciones(user);
 	}
 	
+	//Hago un update general en el que compruebo y actualizo la disponibilidad de un vehículo en caso de ser necesario.
+	
 	public static void updateGeneral()throws SQLException {
 		String query = "UPDATE Vehiculo SET Disponibilidad = 1 WHERE Matricula =(SELECT A.Matricula FROM Alquiler A WHERE current_date()> DATE_ADD(fecha, INTERVAL dias DAY)) OR Matricula NOT IN (SELECT Matricula FROM Alquiler)";
 		
@@ -39,6 +43,8 @@ public class VehiculoRepo {
 		}
 		
 	}
+	
+	//Busco el vehículo especificado por el usuario.
 	
 	public static void encontrarVehiculo(Vehiculo vehiculo)throws SQLException {
 		String query = "SELECT COUNT(*) FROM Vehiculo WHERE Matricula = ?";

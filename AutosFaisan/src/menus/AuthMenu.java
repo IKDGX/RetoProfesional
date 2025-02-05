@@ -12,6 +12,8 @@ public class AuthMenu {
 	public static Usuario user = new Usuario();
 	
 	private static int eleccion;
+	
+	//El primer menú del programa, en el que el usuario debe ingresar sus datos.
 
 	public static void menuPrincipal() throws SQLException {
 		do {

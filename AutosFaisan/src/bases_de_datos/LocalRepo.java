@@ -11,6 +11,8 @@ import model.Local;
 
 public class LocalRepo {
 	
+	//Solicito todos los locales.
+	
 	public static void mostrarLocales(String lista[])throws SQLException{
 		String query = "SELECT * FROM CLocal";
 		for(String l: lista) {
@@ -26,6 +28,8 @@ public class LocalRepo {
 			FormateadorTexto.formateo(3);
 		}
 	}
+	
+	//Busco el local especificado por el usuario.
 	
 	public static boolean encontrarLocal(Local local)throws SQLException {
 		String query = "SELECT COUNT(*) FROM CLocal WHERE ID = ?";

@@ -7,6 +7,8 @@ import model.Usuario;
 
 public class UsuarioRepo {
 	
+	//Intento añadir el nuevo usuario a la base de datos.
+	
 	public static void registrarUsuario(Usuario user, String clave) throws SQLException{
 		String query = "INSERT INTO Usuario VALUES(?,?,?,?,?,?)";
 		
@@ -30,6 +32,8 @@ public class UsuarioRepo {
 		 hago un catch y le indico al usuario que ese DNI ya está registrado.*/
 		System.out.println("Usuario registrado de forma exitosa");
 	}
+	
+	//Solicito los datos del usuario que quiere iniciar sesión.
 	
 	public static void iniciarSesion(Usuario user, String dni, String clave) throws SQLException {
 		
@@ -59,7 +63,7 @@ public class UsuarioRepo {
 
 	}
 
-	
+	//Devuelvo la cantidad total de usuarios guardados en la base de datos.
 	
 	public static String cantidadUsuarios() throws SQLException {
 		String query= "SELECT COUNT(*) FROM Usuario";

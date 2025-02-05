@@ -10,7 +10,7 @@ public class FormateadorTexto {
 	
 	private static ArrayList<String> tabla = new ArrayList<>();
 	
-	//Le aplica un formato a los datos añadidos anteriormente
+	//Le aplica un formato a los datos añadidos anteriormente y los printea en un listado con columnas bien separadas.
 
 	public static void formateo(int columnas) {
 		int tam = 0;
@@ -33,12 +33,14 @@ public class FormateadorTexto {
 
 	}
 	
-	//Recibe los datos que se mostrarán
+	//Recibe los datos que se mostrarán y los añade al arraylist.
 	
 	public static ArrayList<String> tablas(String a) {
 		tabla.add(a);
 		return tabla;
 	}
+	
+	//Recibe toda la información que se mostrará  al administrador que ha solicitado ver las estadísticas.
 	
 	public static void Estadisticas() throws SQLException {
 		String titulo[] = {"Usuarios","Dinero generado","Alquileres de coches","Alquileres de motos"};

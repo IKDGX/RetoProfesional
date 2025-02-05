@@ -9,6 +9,8 @@ import model.Vehiculo;
 
 public class CocheRepo {
 	
+	//Pido todos los coches que hay en un local.
+	
 	public static void mostrarCoches(String lista[],String local)throws SQLException{
 		String query = "SELECT V.Matricula, Modelo, Color, Precio_dia, disponibilidad, Tipo FROM (Vehiculo V JOIN VCoche C ON V.Matricula = C.Matricula)JOIN CLocal L ON V.ID = L.ID WHERE L.ID = ?";                               
 		for(String l: lista) {
@@ -26,6 +28,8 @@ public class CocheRepo {
 
 		}
 	}
+	
+	//Solicito el coche especificado por el usuario junto a todos su atributos.
 	
 	public static void CocheElegido(String lista[],Vehiculo vehiculo)throws SQLException{
 		String query = "SELECT V.Matricula, Modelo, Color, Precio_dia, disponibilidad, Tipo FROM Vehiculo V JOIN VCoche C ON V.Matricula = C.Matricula WHERE V.Matricula = ?";                               

@@ -8,6 +8,9 @@ import menus.FormateadorTexto;
 import model.Vehiculo;
 
 public class MotoRepo {
+	
+	//Pido todos las motos que hay en un local.
+	
 	public static void mostrarMotos(String lista[],String local)throws SQLException{
 		String query = "SELECT V.Matricula, Modelo, Color, Precio_dia, disponibilidad, Cilindrada FROM (Vehiculo V JOIN VMoto C ON V.Matricula = C.Matricula)JOIN CLocal L ON V.ID = L.ID WHERE L.ID = ?";                               
 
@@ -25,6 +28,8 @@ public class MotoRepo {
 			FormateadorTexto.formateo(6);
 		}
 	}
+	
+	//Solicito la moto especificada por el usuario junto a todos su atributos.
 	
 	public static void MotoElegida(String lista[],Vehiculo vehiculo)throws SQLException{
 		String query = "SELECT V.Matricula, Modelo, Color, Precio_dia, disponibilidad, Cilindrada FROM Vehiculo V JOIN VMoto C ON V.Matricula = C.Matricula WHERE V.Matricula = ?";                               

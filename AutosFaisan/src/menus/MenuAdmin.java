@@ -13,6 +13,9 @@ public class MenuAdmin {
 	
 	public static Local local = new Local();
 	
+	
+	//Menú principal del administrador.
+	
 	public static void PanelAdmin() throws SQLException {
 		do {
 			eleccion = ValidacionEntradaDatos.leerNumero("""
@@ -42,6 +45,8 @@ public class MenuAdmin {
 			}
 		}while(eleccion!=0);
 	}
+	
+	//Menú de registros de alquileres con y sin filtros
 	
 	public static void AlquileresFiltrados() throws SQLException {
 		do {
