@@ -112,6 +112,8 @@ public class Utiles {
 		return lista;
 	}
 	
+	//Este método define la fecha en la que el vehículo estará disponible
+	
 	public static Date fechaDisponibilidad(Vehiculo vehiculo, Date fecha, int dias) throws SQLException {
 		fecha = new Date(System.currentTimeMillis());
 		if(!vehiculo.isDisponibilidad()) {
@@ -127,7 +129,7 @@ public class Utiles {
 	public static int diasAlquiler(int dias) {
 		dias = -80;
 		do {
-			dias = ValidacionEntradaDatos.leerNumero("Introduzca la cantidad de dias del alquiler");
+			dias = ValidacionEntradaDatos.leerNumero("\nIntroduzca la cantidad de dias del alquiler");
 		}
 		while(dias<=0);
 		return dias;
