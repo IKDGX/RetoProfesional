@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import menus.FormateadorTexto;
+import menus.MenuUser;
 import menus.Utiles;
 import model.Vehiculo;
 
@@ -36,16 +37,21 @@ public class MotoRepo {
 	}
 	
 	public static void mostrarMotos2(String lista[],String local, Date fechainicio, Date fechafin)throws SQLException{
-		String query = "SELECT V.Matricula, Modelo, Color, Precio_dia, disponibilidad, Cilindrada FROM (Vehiculo V JOIN VMoto C ON V.Matricula = C.Matricula)JOIN CLocal L ON V.ID = L.ID WHERE L.ID = ? AND disponibilidad = 1 UNION SELECT V.Matricula, Modelo, Color, Precio_dia, disponibilidad, Cilindrada FROM ((Vehiculo V JOIN VMoto C ON V.Matricula = C.Matricula)JOIN Alquiler A ON V.Matricula = A.Matricula) JOIN CLocal L ON V.ID = L.ID WHERE (fecha > ? OR DATE_ADD(fecha, INTERVAL dias DAY)< ?) AND L.ID = ?";                               
+		String query = "SELECT V.Matricula, Modelo, Color, Precio_dia, disponibilidad, Cilindrada FROM (Vehiculo V JOIN VMoto C ON V.Matricula = C.Matricula)JOIN CLocal L ON V.ID = L.ID WHERE L.ID = ? AND disponibilidad = 1 \r\n"
+				+ "UNION \r\n"
+				+ "SELECT V.Matricula, Modelo, Color, Precio_dia, disponibilidad, Cilindrada FROM (Vehiculo V JOIN VMoto C ON V.Matricula = C.Matricula) JOIN CLocal L ON V.ID = L.ID \r\n"
+				+ "WHERE V.Matricula NOT IN (SELECT V.Matricula FROM (Vehiculo V JOIN CLocal L ON V.ID = L.ID)JOIN Alquiler A ON V.Matricula = A.Matricula WHERE ((? BETWEEN fecha AND DATE_ADD(fecha, INTERVAL dias DAY)) OR fecha BETWEEN ? AND ? ) AND L.ID = ?)AND L.ID = ?";                               
 		try (PreparedStatement prep = ConectorBD.conexion.prepareStatement(query)){
 			prep.setString(1, local);
-			prep.setDate(2, fechafin);
+			prep.setDate(2, fechainicio);
 			prep.setDate(3, fechainicio);
-			prep.setString(4, local);
+			prep.setDate(4, fechafin);
+			prep.setString(5, local);
+			prep.setString(6, local);
 			ResultSet resultado = prep.executeQuery();
 			if(!resultado.next()) {
-				System.out.println("No hay motos disponibles en esas fechas");
-				return;
+				System.out.println("No hay motos disponibles en esas fechas\n");
+				MenuUser.Catalogo();
 			}
 			for(String l: lista) {
 				FormateadorTexto.tablas(l);
