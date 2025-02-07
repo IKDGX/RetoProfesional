@@ -116,7 +116,9 @@ public class Utiles {
 	public static Date fechaReserva(String mensaje,Date fechaRequisito, Date fecharesultado) throws SQLException{
 		do {
 			fecharesultado = ValidacionEntradaDatos.leerFecha(mensaje);
-			System.out.println("\nEsa fecha no es válida\n");
+			if(fecharesultado.before(fechaRequisito)){
+				System.out.println("\nEsa fecha no es válida\n");
+			}
 		}while(fecharesultado.before(fechaRequisito));
 		return fecharesultado;
 	}
