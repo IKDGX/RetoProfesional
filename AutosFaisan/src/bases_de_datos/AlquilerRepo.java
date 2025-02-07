@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 
 import menus.FormateadorTexto;
+import menus.MenuUser;
 import model.Usuario;
 import model.Vehiculo;
 
@@ -52,25 +53,11 @@ public class AlquilerRepo {
 			prep.setInt(4, dias);
 			prep.setFloat(5, dias*vehiculo.getPrecio());
 			prep.executeUpdate();
+			MenuUser.fechainicio = null;
+			MenuUser.fechafin = null;
 			VehiculoRepo.actuEstado(vehiculo, user);
 		}
 
-	}
-	
-	//Solicito la fecha en la que un vehículo estará disponible.
-	
-	public static Date fechaDispo(Vehiculo vehiculo)throws SQLException{
-		String query = "SELECT DATE_ADD(fecha, INTERVAL dias DAY) AS fecha FROM Alquiler A JOIN Vehiculo V ON A.Matricula = V.Matricula WHERE A.Matricula = ? ORDER BY fecha DESC";
-		
-		try(PreparedStatement check = ConectorBD.conexion.prepareStatement(query)){
-			
-			check.setString(1, vehiculo.getMatricula());
-			
-			ResultSet res = check.executeQuery();
-			res.next();
-			return res.getDate(1);
-			
-		}
 	}
 	
 	//Solicito todos los alquileres guardados.

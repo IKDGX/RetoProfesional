@@ -2,19 +2,19 @@ package menus;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
-import bases_de_datos.AlquilerRepo;
 import bases_de_datos.ValidacionEntradaDatos;
 import bases_de_datos.LocalRepo;
 import bases_de_datos.UsuarioRepo;
 import enums.TipoUsuario;
 import model.Local;
 import model.Usuario;
-import model.Vehiculo;
 
 public class Utiles {
 
+	public static ArrayList<String> matriculas = new ArrayList<>();
 	//Este método crea un objeto Usuario usado para registrarlo en la base de datos.
 
 	public static void crearUsuario(Usuario user) throws SQLException {
@@ -112,29 +112,15 @@ public class Utiles {
 		return lista;
 	}
 	
-	//Este método define la fecha en la que el vehículo estará disponible
-	
-	public static Date fechaDisponibilidad(Vehiculo vehiculo, Date fecha, int dias) throws SQLException {
-		fecha = new Date(System.currentTimeMillis());
-		if(!vehiculo.isDisponibilidad()) {
-			if(AlquilerRepo.fechaDispo(vehiculo).after(fecha)) {
-				fecha = AlquilerRepo.fechaDispo(vehiculo);
-			}
-		}
-		return fecha;
-	}
-	
-	//Este método se ocupa de pedirle al cliente la cantidad de días que quiere alquilar un vehículo.
-	
-	public static int diasAlquiler(int dias) {
-		dias = -80;
+
+	public static Date fechaReserva(String mensaje,Date fechaRequisito, Date fecharesultado) throws SQLException{
 		do {
-			dias = ValidacionEntradaDatos.leerNumero("\nIntroduzca la cantidad de dias del alquiler");
-		}
-		while(dias<=0);
-		return dias;
+			fecharesultado = ValidacionEntradaDatos.leerFecha(mensaje);
+		}while(fecharesultado.before(fechaRequisito));
+		return fecharesultado;
 	}
 	
+
 	//Este método lee lo que el usuario desea hacer como último paso de un alquiler y lo devuelve.
 	
 	public static String finalizar(String input) {
@@ -161,5 +147,21 @@ public class Utiles {
 
 					"""));
 		}while(!LocalRepo.encontrarLocal(local));
+	}
+	
+	
+	public static void matricula(String matricula){
+		matriculas.add(matricula);
+	}
+	
+	public static void encontrarvehiculo(String matricula) throws SQLException {
+		for(String e: matriculas) {
+			if(e.equalsIgnoreCase(matricula)) {
+				return;
+			}
+		}
+		System.out.println("\nNo se ha encontrado ese vehículo en el listado mostrado anteriormente\n");
+		MenuUser.MenuAlquiler();
+		
 	}
 }

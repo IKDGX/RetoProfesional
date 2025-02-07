@@ -81,7 +81,7 @@ public class ValidacionEntradaDatos {
 				funciona = false;
 			}
 
-		}while(!funciona);
+		}while(!funciona );
 		return fecha;
 	}
 }

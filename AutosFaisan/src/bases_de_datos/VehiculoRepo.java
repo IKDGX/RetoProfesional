@@ -49,7 +49,6 @@ public class VehiculoRepo {
 	public static void encontrarVehiculo(Vehiculo vehiculo)throws SQLException {
 		String query = "SELECT COUNT(*) FROM Vehiculo WHERE Matricula = ?";
 		try(PreparedStatement check = ConectorBD.conexion.prepareStatement(query)){
-			
 			check.setString(1, vehiculo.getMatricula());
 			ResultSet res = check.executeQuery();
 			res.next();

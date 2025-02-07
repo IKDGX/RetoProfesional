@@ -2,6 +2,7 @@ package menus;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.concurrent.TimeUnit;
 
 import bases_de_datos.AlquilerRepo;
 import bases_de_datos.CocheRepo;
@@ -17,7 +18,9 @@ public class MenuUser {
 	
 	public static Usuario user;
 	
-	public static Date fecha;
+	public static Date fechainicio;
+	
+	public static Date fechafin;
 	
 	private static int eleccion;
 	
@@ -30,6 +33,7 @@ public class MenuUser {
 	//Menú principal del cliente
 
 	public static void menuFunciones(Usuario usuario) throws SQLException {
+		Utiles.matriculas.clear();
 		user = usuario;
 		do {
 			eleccion = ValidacionEntradaDatos.leerNumero("""
@@ -67,9 +71,12 @@ public class MenuUser {
 	public static void Catalogo() throws SQLException {
 		
 		Utiles.accederLocal(local);
+		if(fechainicio == null && fechafin == null) {
+			fechainicio = Utiles.fechaReserva("\nIntroduzca la fecha de inicio de la reserva:\n", new Date(System.currentTimeMillis()), fechainicio);
+			fechafin = Utiles.fechaReserva("\nIntroduzca la fecha final de la reserva:\n", fechainicio, fechafin);
+		}
+		
 		do {
-			
-
 			eleccion = ValidacionEntradaDatos.leerNumero("""
 					
 					+------------------Vehículos-------------------+
@@ -85,11 +92,11 @@ public class MenuUser {
 					""");
 			switch(eleccion) {
 			case 1:
-				CocheRepo.mostrarCoches(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Disponibles","Tipo"}), local.getId());
+				CocheRepo.mostrarCoches2(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Disponibles","Tipo"}), local.getId(), fechainicio, fechafin);
 				MenuAlquiler();
 				break;
 			case 2:
-				MotoRepo.mostrarMotos(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Disponibles","Cilindrada"}) , local.getId());
+				MotoRepo.mostrarMotos2(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Disponibles","Cilindrada"}), local.getId(), fechainicio, fechafin);
 				MenuAlquiler();
 				break;
 			case 0:
@@ -121,6 +128,7 @@ public class MenuUser {
 			else {
 				vehiculo.setMatricula(input);
 				VehiculoRepo.encontrarVehiculo(vehiculo);
+				Utiles.encontrarvehiculo(vehiculo.getMatricula());
 				switch(eleccion) {
 				case 1:
 					CocheRepo.CocheElegido(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Disponibles","Tipo"}), vehiculo);
@@ -141,23 +149,20 @@ public class MenuUser {
 	//Recibe los datos necesarios para realizar el trámite y si se da el caso lo realiza
 	
 	public static void procesoAlquiler(String input) throws SQLException {
-		dias = Utiles.diasAlquiler(dias);
-		Date fecha1 = Utiles.fechaDisponibilidad(vehiculo, fecha, dias);
-		System.out.println("Alquiler disponible desde: "+fecha1);
-		do {
-			fecha = ValidacionEntradaDatos.leerFecha("""
-					
-					Introduzca la fecha en la que desea realizar la reserva \"yyyy-mm-dd\":
-					
-					""");
-		}while(fecha1.after(fecha));
 		input = Utiles.finalizar(input);
 		if(input.equalsIgnoreCase("finalizar")) {
-			AlquilerRepo.realizarAlquiler(vehiculo, user, dias, fecha);
+			long fecinicio = fechainicio.getTime();
+			long fecfin = fechafin.getTime();
+
+			long timeDiff = Math.abs(fecinicio - fecfin);
+
+			dias =(int) TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
+			AlquilerRepo.realizarAlquiler(vehiculo, user, dias, fechainicio);
 		}
 		else if(input.equalsIgnoreCase("0")) {
 			menuFunciones(user);
 		}
+		
 	}
 	
 }

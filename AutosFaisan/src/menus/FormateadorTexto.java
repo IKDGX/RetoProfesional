@@ -35,9 +35,8 @@ public class FormateadorTexto {
 	
 	//Recibe los datos que se mostrarán y los añade al arraylist.
 	
-	public static ArrayList<String> tablas(String a) {
+	public static void tablas(String a) {
 		tabla.add(a);
-		return tabla;
 	}
 	
 	//Recibe toda la información que se mostrará  al administrador que ha solicitado ver las estadísticas.
@@ -52,4 +51,6 @@ public class FormateadorTexto {
 		AlquilerRepo.DineroTotal();
 		formateo(4);
 	}
+	
+
 }

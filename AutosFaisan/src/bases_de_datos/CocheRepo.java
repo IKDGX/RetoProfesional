@@ -1,33 +1,15 @@
 package bases_de_datos;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import menus.FormateadorTexto;
+import menus.Utiles;
 import model.Vehiculo;
 
 public class CocheRepo {
-	
-	//Pido todos los coches que hay en un local.
-	
-	public static void mostrarCoches(String lista[],String local)throws SQLException{
-		String query = "SELECT V.Matricula, Modelo, Color, Precio_dia, disponibilidad, Tipo FROM (Vehiculo V JOIN VCoche C ON V.Matricula = C.Matricula)JOIN CLocal L ON V.ID = L.ID WHERE L.ID = ?";                               
-		for(String l: lista) {
-			FormateadorTexto.tablas(l);
-		}
-		try (PreparedStatement prep = ConectorBD.conexion.prepareStatement(query)){
-			prep.setString(1, local);
-			ResultSet resultado = prep.executeQuery();
-			while(resultado.next()) {
-				for(int i=1;i<7;i++) {
-					FormateadorTexto.tablas(resultado.getString(i));
-				}
-			}
-			FormateadorTexto.formateo(6);
-
-		}
-	}
 	
 	//Solicito el coche especificado por el usuario junto a todos su atributos.
 	
@@ -57,4 +39,31 @@ public class CocheRepo {
 	}
 	
 
+	public static void mostrarCoches2(String lista[],String local, Date fechainicio, Date fechafin)throws SQLException{
+		String query = "SELECT V.Matricula, Modelo, Color, Precio_dia, disponibilidad, Tipo FROM (Vehiculo V JOIN VCoche C ON V.Matricula = C.Matricula)JOIN CLocal L ON V.ID = L.ID WHERE L.ID = ? AND disponibilidad = 1 UNION SELECT V.Matricula, Modelo, Color, Precio_dia, disponibilidad, Tipo FROM ((Vehiculo V JOIN VCoche C ON V.Matricula = C.Matricula)JOIN Alquiler A ON V.Matricula = A.Matricula) JOIN CLocal L ON V.ID = L.ID WHERE (fecha > ? OR DATE_ADD(fecha, INTERVAL dias DAY)< ?) AND L.ID = ?";                               
+
+		try (PreparedStatement prep = ConectorBD.conexion.prepareStatement(query)){
+			prep.setString(1, local);
+			prep.setDate(2, fechafin);
+			prep.setDate(3, fechainicio);
+			prep.setString(4, local);
+			ResultSet resultado = prep.executeQuery();
+			if(!resultado.next()) {
+				System.out.println("No hay coches disponibles en esas fechas");
+				return;
+			}
+			for(String l: lista) {
+				FormateadorTexto.tablas(l);
+			}
+			do {
+				Utiles.matricula(resultado.getString(1));
+				for(int i=1;i<7;i++) {
+					FormateadorTexto.tablas(resultado.getString(i));
+				}
+			}
+			while(resultado.next()); 
+			FormateadorTexto.formateo(6);
+
+		}
+	}
 }
