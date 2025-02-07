@@ -112,6 +112,7 @@ public class Utiles {
 		return lista;
 	}
 	
+	//Solicita una fecha al cliente en base a un requisito.
 
 	public static Date fechaReserva(String mensaje,Date fechaRequisito, Date fecharesultado) throws SQLException{
 		do {
@@ -152,10 +153,13 @@ public class Utiles {
 		}while(!LocalRepo.encontrarLocal(local));
 	}
 	
+	//Añade las matrículas que se le han mostrado al cliente en un listado a un arraylist.
 	
 	public static void matricula(String matricula){
 		matriculas.add(matricula);
 	}
+	
+	//Se asegura de que la matrícula introducida por el cliente se encuentra en el listado que se le ha mostrado.
 	
 	public static void encontrarvehiculo(String matricula) throws SQLException {
 		for(String e: matriculas) {

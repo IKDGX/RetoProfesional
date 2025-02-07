@@ -23,7 +23,7 @@ public class AlquilerRepo {
 			
 			ResultSet res = prep.executeQuery();
 			if(!res.next()) {
-				System.out.println("Registro vacío");
+				System.out.println("No alquileres en tu historial");
 				return;
 			}
 			for(String l: lista) {
@@ -63,7 +63,7 @@ public class AlquilerRepo {
 	//Solicito todos los alquileres guardados.
 	
 	public static void Alquileres(String[] titulo)throws SQLException {
-		String query = "SELECT * FROM Alquiler";
+		String query = "SELECT A.Codigo,A.DNI,A.Matricula,A.fecha,A.dias,A.cargo, C.ID FROM (Alquiler A JOIN Vehiculo V ON A.Matricula = V.Matricula)JOIN CLocal C ON V.ID = C.ID";
 
 		
 		try(Statement st = ConectorBD.conexion.createStatement()){
@@ -77,12 +77,12 @@ public class AlquilerRepo {
 				FormateadorTexto.tablas(titulo[i]);
 			}
 			do {
-				for(int i=1; i<7;i++) {
+				for(int i=1; i<8;i++) {
 					FormateadorTexto.tablas(res.getString(i));
 				}
 			}
 			while(res.next());
-			FormateadorTexto.formateo(6);
+			FormateadorTexto.formateo(7);
 			
 		}
 	}

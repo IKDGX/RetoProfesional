@@ -26,8 +26,6 @@ public class MenuUser {
 	
 	public static Vehiculo vehiculo = new Vehiculo();
 	
-	public static int dias;
-	
 	public static Local local = new Local();
 	
 	//Menú principal del cliente
@@ -66,7 +64,8 @@ public class MenuUser {
 	}
 	
 	
-	//Le muestra al cliente un listado de los locales a los que puede acceder y le pide que acceda a uno.
+	/*Le muestra al cliente un listado de los locales a los que puede acceder y le pide que acceda a uno además de preguntarle
+	en qué fechas desea reservar un vehículo.*/
 	
 	public static void Catalogo() throws SQLException {
 		
@@ -156,7 +155,7 @@ public class MenuUser {
 
 			long timeDiff = Math.abs(fecinicio - fecfin);
 
-			dias =(int) TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
+			int dias =(int) TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
 			AlquilerRepo.realizarAlquiler(vehiculo, user, dias, fechainicio);
 		}
 		else if(input.equalsIgnoreCase("0")) {

@@ -36,6 +36,10 @@ public class MotoRepo {
 		}
 	}
 	
+	/*Esta consulta pide a la base de datos un listado de las motos disponibles en las fechas especificadas por el cliente,
+	 en el local al que ha accedido previamente y guarda un registro de las matrículas para que no pueda reservar una moto de otro
+	 local o un tipo de vehículo distinto habiendo seleccionado un listado en concreto */
+	
 	public static void mostrarMotos2(String lista[],String local, Date fechainicio, Date fechafin)throws SQLException{
 		String query = "SELECT V.Matricula, Modelo, Color, Precio_dia, disponibilidad, Cilindrada FROM (Vehiculo V JOIN VMoto C ON V.Matricula = C.Matricula)JOIN CLocal L ON V.ID = L.ID WHERE L.ID = ? AND disponibilidad = 1 \r\n"
 				+ "UNION \r\n"

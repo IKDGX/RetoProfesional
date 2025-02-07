@@ -58,7 +58,7 @@ public class MenuAdmin {
 					|                                              |
 					| 2.Sin filtros                                |
 					|                                              |
-					| 0.Salir                                      |
+					| 0.Volver atrás                               |
 					|                                              |
 					+----------------------------------------------+
 					
@@ -70,11 +70,10 @@ public class MenuAdmin {
 				break;
 
 			case 2:
-				AlquilerRepo.Alquileres(Utiles.titulo(new String[] {"Código","DNI","Matrícula","fecha","días","cargo"}));
+				AlquilerRepo.Alquileres(Utiles.titulo(new String[] {"Código","DNI","Matrícula","fecha","días","cargo","local"}));
 				break;
 			case 0:	
-				ConectorBD.desconectar();
-				System.exit(0);
+				PanelAdmin();
 				break;
 			}
 		}while(eleccion!=0);
