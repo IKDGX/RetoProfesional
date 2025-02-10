@@ -22,6 +22,7 @@ public class AlquilerRepo {
 			prep.setString(1, user.getDni());
 			
 			ResultSet res = prep.executeQuery();
+			//Compruebo que la consulta me haya devuelto datos.
 			if(!res.next()) {
 				System.out.println("No alquileres en tu historial");
 				return;

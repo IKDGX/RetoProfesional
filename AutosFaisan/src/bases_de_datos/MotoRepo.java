@@ -39,7 +39,7 @@ public class MotoRepo {
 	 en el local al que ha accedido previamente y guarda un registro de las matrículas para que no pueda reservar una moto de otro
 	 local o un tipo de vehículo distinto habiendo seleccionado un listado en concreto */
 	
-	public static void mostrarMotos2(String lista[],String local, Date fechainicio, Date fechafin)throws SQLException{
+	public static void mostrarMotos(String lista[],String local, Date fechainicio, Date fechafin)throws SQLException{
 		String query = "SELECT V.Matricula, Modelo, Color, Precio_dia, Cilindrada FROM (Vehiculo V JOIN VMoto C ON V.Matricula = C.Matricula)JOIN CLocal L ON V.ID = L.ID WHERE L.ID = ? AND disponibilidad = 1 \r\n"
 				+ "UNION \r\n"
 				+ "SELECT V.Matricula, Modelo, Color, Precio_dia, Cilindrada FROM (Vehiculo V JOIN VMoto C ON V.Matricula = C.Matricula) JOIN CLocal L ON V.ID = L.ID \r\n"

@@ -103,12 +103,12 @@ public class MenuUser {
 			switch(eleccion) {
 			case 1:
 				//Muestro los coches disponibles en las fechas que ha introducido el usuario.
-				CocheRepo.mostrarCoches2(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Tipo"}), local.getId(), fechainicio, fechafin);
+				CocheRepo.mostrarCoches(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Tipo"}), local.getId(), fechainicio, fechafin);
 				MenuAlquiler();
 				break;
 			case 2:
 				//Hago lo mismo pero con las motos.
-				MotoRepo.mostrarMotos2(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Cilindrada"}), local.getId(), fechainicio, fechafin);
+				MotoRepo.mostrarMotos(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Cilindrada"}), local.getId(), fechainicio, fechafin);
 				MenuAlquiler();
 				break;
 			case 0:

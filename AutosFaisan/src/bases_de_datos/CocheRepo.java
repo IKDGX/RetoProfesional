@@ -41,7 +41,7 @@ public class CocheRepo {
 	 en el local al que ha accedido previamente y guarda un registro de las matrículas para que no pueda reservar un coche de otro
 	 local o un tipo de vehículo distinto habiendo seleccionado un listado en concreto */
 
-	public static void mostrarCoches2(String lista[],String local, Date fechainicio, Date fechafin)throws SQLException{
+	public static void mostrarCoches(String lista[],String local, Date fechainicio, Date fechafin)throws SQLException{
 		String query = "SELECT V.Matricula, Modelo, Color, Precio_dia, Tipo FROM (Vehiculo V JOIN VCoche C ON V.Matricula = C.Matricula)JOIN CLocal L ON V.ID = L.ID WHERE L.ID = ? AND disponibilidad = 1 \r\n"
 				+ "UNION \r\n"
 				+ "SELECT V.Matricula, Modelo, Color, Precio_dia, Tipo FROM (Vehiculo V JOIN VCoche C ON V.Matricula = C.Matricula) JOIN CLocal L ON V.ID = L.ID \r\n"
