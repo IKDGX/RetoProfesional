@@ -42,6 +42,9 @@ public class MenuAdmin {
 				ConectorBD.desconectar();
 				System.exit(0);
 				break;
+			default:
+				System.out.println("\nIntroduce una opción válida\n");
+				break;
 			}
 		}while(eleccion!=0);
 	}
@@ -75,6 +78,9 @@ public class MenuAdmin {
 			case 0:	
 				//Vuelvo al menú anterior.
 				PanelAdmin();
+				break;
+			default:
+				System.out.println("\nIntroduce una opción válida\n");
 				break;
 			}
 		}while(eleccion!=0);

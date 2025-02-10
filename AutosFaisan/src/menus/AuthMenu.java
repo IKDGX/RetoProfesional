@@ -49,6 +49,9 @@ public class AuthMenu {
 				ConectorBD.desconectar();
 				System.exit(0);
 				break;
+			default:
+				System.out.println("\nIntroduce una opción válida\n");
+				break;
 			}
 		}while(eleccion != 0);
 		

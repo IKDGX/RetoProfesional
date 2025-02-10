@@ -19,7 +19,7 @@ public class Utiles {
 
 	public static void crearUsuario(Usuario user) throws SQLException {
 		//Creo un array con todos los mensajes que le mostraré al usuario para que introduzca sus datos.
-		String mensaje[] = {"Introduce el DNI","Introduce el nombre","Introduce el apellido","Introduce la fecha de nacimiento en formato \"yyyy-mm-dd\"","Introduce una clave de acceso"};
+		String[] mensaje = {"Introduce el DNI","Introduce el nombre","Introduce el apellido","Introduce la fecha de nacimiento en formato \"yyyy-mm-dd\"","Introduce una clave de acceso"};
 		String dni;
 		String clave;
 		do {
@@ -43,7 +43,7 @@ public class Utiles {
 	//Como su nombre lo indica, este método es para que el usuario inicie sesión.
 	
 	public static void logUsuario(Usuario user) throws SQLException{
-		String mensaje[] = {"Introduce el DNI","Introduce la clave"};
+		String[] mensaje = {"Introduce el DNI","Introduce la clave"};
 		String dni = ValidacionEntradaDatos.leerTexto(mensaje[0]);
 		String clave = ValidacionEntradaDatos.leerTexto(mensaje[1]);
 		UsuarioRepo.iniciarSesion(user, dni, clave);
@@ -52,7 +52,7 @@ public class Utiles {
 	//Este método calcula la letra que le corresponde al DNI introducido por el usuario en el proceso de registro.
 	
 	public static boolean verificaDNI(String dni) {
-		String lista[] = {"T","R","W","A","G","M","Y","F","P","D","X","B","N","J","Z","S","Q","V","H","L","C","K","E"};
+		String[] lista = {"T","R","W","A","G","M","Y","F","P","D","X","B","N","J","Z","S","Q","V","H","L","C","K","E"};
 		boolean resultado = false;
 		try {
 			String letra = dni.substring(8);
@@ -76,7 +76,7 @@ public class Utiles {
 	//Este método se asegura de que la contraseña del usuario cumpla ciertos requisitos mínimos.
 	
 	public static boolean reqClave(String clave) {
-		boolean pasos[] = {false,false,false};
+		boolean[] pasos = {false,false,false};
 		boolean resultado = false;
 		if(clave.length()>=8) {
 			pasos[0] = true;

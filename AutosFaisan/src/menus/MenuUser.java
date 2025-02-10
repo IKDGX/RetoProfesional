@@ -63,6 +63,9 @@ public class MenuUser {
 				ConectorBD.desconectar();
 				System.exit(0);
 				break;
+			default:
+				System.out.println("\nIntroduce una opción válida\n");
+				break;
 			}
 		}
 		while(eleccion!=0);
@@ -115,6 +118,9 @@ public class MenuUser {
 				ConectorBD.desconectar();
 				System.exit(0);
 				break;
+			default:
+				System.out.println("\nIntroduce una opción válida\n");
+				break;
 			}
 		}
 		while(eleccion != 0);
@@ -151,6 +157,9 @@ public class MenuUser {
 					//Muestro la moto elegida.
 					MotoRepo.MotoElegida(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Cilindrada"}) , vehiculo);
 					procesoAlquiler(input);
+					break;
+				default:
+					System.out.println("\nIntroduce una opción válida\n");
 					break;
 				}
 			}
