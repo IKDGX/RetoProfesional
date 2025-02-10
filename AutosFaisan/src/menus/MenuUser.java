@@ -91,11 +91,11 @@ public class MenuUser {
 					""");
 			switch(eleccion) {
 			case 1:
-				CocheRepo.mostrarCoches2(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Disponibles","Tipo"}), local.getId(), fechainicio, fechafin);
+				CocheRepo.mostrarCoches2(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Tipo"}), local.getId(), fechainicio, fechafin);
 				MenuAlquiler();
 				break;
 			case 2:
-				MotoRepo.mostrarMotos2(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Disponibles","Cilindrada"}), local.getId(), fechainicio, fechafin);
+				MotoRepo.mostrarMotos2(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Cilindrada"}), local.getId(), fechainicio, fechafin);
 				MenuAlquiler();
 				break;
 			case 0:
@@ -130,11 +130,11 @@ public class MenuUser {
 				Utiles.encontrarvehiculo(vehiculo.getMatricula());
 				switch(eleccion) {
 				case 1:
-					CocheRepo.CocheElegido(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Disponibles","Tipo"}), vehiculo);
+					CocheRepo.CocheElegido(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Tipo"}), vehiculo);
 					procesoAlquiler(input);
 					break;
 				case 2:
-					MotoRepo.MotoElegida(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Disponibles","Cilindrada"}) , vehiculo);
+					MotoRepo.MotoElegida(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Cilindrada"}) , vehiculo);
 					procesoAlquiler(input);
 					break;
 				}
@@ -154,9 +154,11 @@ public class MenuUser {
 			long fecfin = fechafin.getTime();
 
 			long timeDiff = Math.abs(fecinicio - fecfin);
+			
+			//Se le suma 1 a días para tener en cuenta el primer día del alquiler, si no, el primer día siempre sería gratis
 
 			int dias =(int) TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
-			AlquilerRepo.realizarAlquiler(vehiculo, user, dias, fechainicio);
+			AlquilerRepo.realizarAlquiler(vehiculo, user, dias+1, fechainicio);
 		}
 		else if(input.equalsIgnoreCase("0")) {
 			menuFunciones(user);
