@@ -17,6 +17,8 @@ public class AuthMenu {
 
 	public static void menuPrincipal() throws SQLException {
 		do {
+			/*Si cualquiera de estas dos condiciones se cumplen significa que el usuario se ha registrado o ha iniciado sesión
+			 y lo redirije a su correspondiente menú.*/
 			if(user.getTipo()==(TipoUsuario.Administrador)) {
 				MenuAdmin.PanelAdmin();
 			}

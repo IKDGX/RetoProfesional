@@ -73,6 +73,7 @@ public class MenuAdmin {
 				AlquilerRepo.Alquileres(Utiles.titulo(new String[] {"Código","DNI","Matrícula","fecha","días","cargo","local"}));
 				break;
 			case 0:	
+				//Vuelvo al menú anterior.
 				PanelAdmin();
 				break;
 			}

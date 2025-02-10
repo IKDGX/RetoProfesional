@@ -31,8 +31,11 @@ public class MenuUser {
 	//Menú principal del cliente
 
 	public static void menuFunciones(Usuario usuario) throws SQLException {
+		
+		//Este clear es de un listado de matrículas que se genera cuando el usuario accede al catálogo de un local con intenciones de alquilar un vehículo.
+		
 		Utiles.matriculas.clear();
-		user = usuario;
+		user = usuario; //Declaro el objeto de usuario que recibo del menú de login.
 		do {
 			eleccion = ValidacionEntradaDatos.leerNumero("""
 					
@@ -49,9 +52,11 @@ public class MenuUser {
 					""");
 			switch(eleccion) {
 			case 1:
+				//Llamo a otro menú
 				Catalogo();
 				break;
 			case 2:
+				//Utiles.titulo es una función que le añade un subrayado al array que le envies.
 				AlquilerRepo.mostrarAlquileres(Utiles.titulo(new String[] {"Código","DNI","Matrícula","fecha","días","cargo"}), user);
 				break;
 			case 0:
@@ -69,8 +74,14 @@ public class MenuUser {
 	
 	public static void Catalogo() throws SQLException {
 		
+		//Intento acceder al local especificado por el usuario.
+
 		Utiles.accederLocal(local);
+		
 		if(fechainicio == null && fechafin == null) {
+			/*Le pido al usuario las fechas en las que quiere reservar un vehículo.
+			  Estas fechas se mantendran hasta que el usuario realice una reserva o reinicie el programa.*/
+			
 			fechainicio = Utiles.fechaReserva("\nIntroduzca la fecha de inicio de la reserva:\n", new Date(System.currentTimeMillis()), fechainicio);
 			fechafin = Utiles.fechaReserva("\nIntroduzca la fecha final de la reserva:\n", fechainicio, fechafin);
 		}
@@ -91,10 +102,12 @@ public class MenuUser {
 					""");
 			switch(eleccion) {
 			case 1:
+				//Muestro los coches disponibles en las fechas que ha introducido el usuario.
 				CocheRepo.mostrarCoches2(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Tipo"}), local.getId(), fechainicio, fechafin);
 				MenuAlquiler();
 				break;
 			case 2:
+				//Hago lo mismo pero con las motos.
 				MotoRepo.mostrarMotos2(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Cilindrada"}), local.getId(), fechainicio, fechafin);
 				MenuAlquiler();
 				break;
@@ -126,14 +139,16 @@ public class MenuUser {
 			}
 			else {
 				vehiculo.setMatricula(input);
-				VehiculoRepo.encontrarVehiculo(vehiculo);
-				Utiles.encontrarvehiculo(vehiculo.getMatricula());
+				VehiculoRepo.encontrarVehiculo(vehiculo); //Compruebo que el vehículo exista en la base de datos.
+				Utiles.encontrarvehiculo(vehiculo.getMatricula()); //Compruebo que el vehículo este en el listado que le he mostrado al usuario.
 				switch(eleccion) {
 				case 1:
+					//Muestro el coche elegido.
 					CocheRepo.CocheElegido(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Tipo"}), vehiculo);
 					procesoAlquiler(input);
 					break;
 				case 2:
+					//Muestro la moto elegida.
 					MotoRepo.MotoElegida(Utiles.titulo(new String[] {"Matrícula","Modelo","Color","Precio/dia","Cilindrada"}) , vehiculo);
 					procesoAlquiler(input);
 					break;
@@ -145,20 +160,22 @@ public class MenuUser {
 		
 	}
 	
-	//Recibe los datos necesarios para realizar el trámite y si se da el caso lo realiza
+	//Recibe los datos necesarios para realizar el trámite y si se da el caso lo realiza.
 	
 	public static void procesoAlquiler(String input) throws SQLException {
+		
 		input = Utiles.finalizar(input);
 		if(input.equalsIgnoreCase("finalizar")) {
 			long fecinicio = fechainicio.getTime();
 			long fecfin = fechafin.getTime();
 
-			long timeDiff = Math.abs(fecinicio - fecfin);
-			
-			//Se le suma 1 a días para tener en cuenta el primer día del alquiler, si no, el primer día siempre sería gratis
+			long timeDiff = Math.abs(fecinicio - fecfin); //Calculo la diferencia de días entre la fecha de inicio y fin del alquiler.
 
-			int dias =(int) TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
+			int dias =(int) TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);//Convierto la diferencia calculada en milésimas a días.
+			
 			AlquilerRepo.realizarAlquiler(vehiculo, user, dias+1, fechainicio);
+			/*Se le suma 1 a días para tener en cuenta el primer día del alquiler
+			, si no, el primer día siempre sería gratis.*/
 		}
 		else if(input.equalsIgnoreCase("0")) {
 			menuFunciones(user);

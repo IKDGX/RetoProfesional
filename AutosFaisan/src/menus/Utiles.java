@@ -18,6 +18,7 @@ public class Utiles {
 	//Este método crea un objeto Usuario usado para registrarlo en la base de datos.
 
 	public static void crearUsuario(Usuario user) throws SQLException {
+		//Creo un array con todos los mensajes que le mostraré al usuario para que introduzca sus datos.
 		String mensaje[] = {"Introduce el DNI","Introduce el nombre","Introduce el apellido","Introduce la fecha de nacimiento en formato \"yyyy-mm-dd\"","Introduce una clave de acceso"};
 		String dni;
 		String clave;
@@ -25,6 +26,7 @@ public class Utiles {
 			dni = ValidacionEntradaDatos.leerTexto(mensaje[0]);
 		}
 		while(!verificaDNI(dni));
+		//Le pido al usuario que introduzca su DNI y si no es real se lo vuelvo a pedir.
 		user.setDni(dni.toUpperCase());
 		user.setNombre(ValidacionEntradaDatos.leerTexto(mensaje[1]));
 		user.setApellido(ValidacionEntradaDatos.leerTexto(mensaje[2]));
@@ -32,7 +34,8 @@ public class Utiles {
 		do {
 			clave = ValidacionEntradaDatos.leerTexto(mensaje[4]);
 		}while(!reqClave(clave));
-		user.setTipo(TipoUsuario.Cliente);
+		//Le pido que introduzca una clave y si no cumple los requisitos se repite.
+		user.setTipo(TipoUsuario.Cliente); //Es un cliente porque los administradores son insertados directamente en la base de datos.
 		UsuarioRepo.registrarUsuario(user, clave);
 
 	}
@@ -77,15 +80,19 @@ public class Utiles {
 		boolean resultado = false;
 		if(clave.length()>=8) {
 			pasos[0] = true;
+			//Esto comprueba el largo de la contraseña.
 		}
 		for(String e: clave.split("")){
             if("0123456789".contains(e)){
                 pasos[1]=true;
+                //Compruebo si la contraseña tiene un número.
             }
             else if(e.toUpperCase().equals(e)){
                 pasos[2]= true;
+                //Compruebo si la contraseña tiene una mayúscula.
             }
         }
+		//En este for verifico que la contraseña cumpla todos los requisitos.
 		for(boolean a: pasos) {
 			if(a) {
 				resultado = true;
@@ -115,6 +122,7 @@ public class Utiles {
 	//Solicita una fecha al cliente en base a un requisito.
 
 	public static Date fechaReserva(String mensaje,Date fechaRequisito, Date fecharesultado) throws SQLException{
+		//Le pide al usuario que introduzca una fecha de manera indefinida hasta que la fecha sea posterior a la fecha requisito.
 		do {
 			fecharesultado = ValidacionEntradaDatos.leerFecha(mensaje);
 

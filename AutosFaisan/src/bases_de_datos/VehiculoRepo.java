@@ -14,6 +14,7 @@ public class VehiculoRepo {
 	//Cambio la disponibilidad de un vehículo tras realizar un alquiler.
 
 	public static void actuEstado(Vehiculo vehiculo, Usuario user)throws SQLException {
+		/*Este es el último paso al realizar un alquiler, actualizo la disponibilidad del vehículo alquilado*/
 		String query = "UPDATE Vehiculo SET Disponibilidad = false WHERE Matricula = ?";
 		
 		try(PreparedStatement prep = ConectorBD.conexion.prepareStatement(query)){
@@ -33,7 +34,8 @@ public class VehiculoRepo {
 	
 	public static void updateGeneral()throws SQLException {
 		String query = "UPDATE Vehiculo SET Disponibilidad = 1 WHERE Matricula =(SELECT A.Matricula FROM Alquiler A WHERE current_date()> DATE_ADD(fecha, INTERVAL dias DAY)) OR Matricula NOT IN (SELECT Matricula FROM Alquiler)";
-		
+		/*Hago un update para poner los vehículos cuyo alquiler haya finalizado disponibles y 
+		 en caso de que haya un vehículo sin alquileres no disponible, lo corrijo.*/
 		try(Statement prep = ConectorBD.conexion.createStatement()){
 			
 			prep.executeUpdate(query);
@@ -47,12 +49,12 @@ public class VehiculoRepo {
 	//Busco el vehículo especificado por el usuario.
 	
 	public static void encontrarVehiculo(Vehiculo vehiculo)throws SQLException {
-		String query = "SELECT COUNT(*) FROM Vehiculo WHERE Matricula = ?";
+		/*Busco un vehículo por su matrícula*/
+		String query = "SELECT * FROM Vehiculo WHERE Matricula = ?";
 		try(PreparedStatement check = ConectorBD.conexion.prepareStatement(query)){
 			check.setString(1, vehiculo.getMatricula());
 			ResultSet res = check.executeQuery();
-			res.next();
-			if(res.getInt(1)!=1) {
+			if(!res.next()) {
 				MenuUser.MenuAlquiler();
 			}
 		}

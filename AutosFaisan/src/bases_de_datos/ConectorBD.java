@@ -14,11 +14,8 @@ public class ConectorBD {
             Class.forName("com.mysql.cj.jdbc.Driver");
             System.out.println("Driver cargado");        
             try{
- 
             conexion = DriverManager.getConnection("jdbc:mysql://localhost:3306/Concesionario","usuario","Plaiaundi1dam3");
-          
             System.out.println("Conexion establecida");
-          
         }catch(Exception e){
             System.out.println("Error en la conexion");
         }
